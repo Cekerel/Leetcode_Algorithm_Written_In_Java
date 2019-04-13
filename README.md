@@ -1,2 +1,2 @@
-# Leetcode_Java
-My Leetcode
+# LeetcodeWrittenWithJava
+My Leetcode code
