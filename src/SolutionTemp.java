@@ -72,7 +72,7 @@ class MinStack {
 /*
  * Solution
  */
-public class Solution {
+public class SolutionTemp {
 
     public static int searchInsert(int[] nums, int target) {
         int length = nums.length;
@@ -357,6 +357,72 @@ public class Solution {
         return str.toString();
     }
 
+    public static int hammingWeight(int n) {
+        // String string = Integer.toBinaryString(n);
+        // String string2 = string.replaceAll("1", "");
+        // return string.length() - string2.length();
+        int count = 0;
+        for (int i = 0; i < 32; i++) {
+            if ((n & 1) == 1) {
+                count++;
+            }
+            n >>= 1;
+        }
+        return count;
+    }
+
+    public static int countPrimes(int n) {
+        if (n <= 0) {
+            return 0;
+        }
+        boolean[] isPrime = new boolean[n + 1];
+        for (int i = 2; i <= n; i++) {
+            isPrime[i] = true;
+        }
+        for (int j = 2; j <= n; j++) {
+            if (true == isPrime[j]) {
+                for (int m = 2; j * m <= n; m++) {
+                    isPrime[j * m] = false;
+                }
+            }
+        }
+        int count = 0;
+        for (int i = 2; i <= n; i++) {
+            if (true == isPrime[i]) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public static boolean isIsomorphic(String s, String t) {
+        try {
+            int lengths = s.length();
+            int lengtht = t.length();
+            if (lengths != lengtht) {
+                return false;
+            }
+            HashMap<Character, Character> testMap = new HashMap<>();
+            char cs = '\0';
+            char ct = '\0';
+            for (int i = 0; i < lengths; i++) {
+                cs = s.charAt(i);
+                ct = t.charAt(i);
+                if (testMap.containsKey(cs)) {
+                    if (testMap.get(cs) != ct) {
+                        return false;
+                    }
+                } else {
+                    testMap.put(cs, ct);
+                }
+            }
+        } catch (NullPointerException e) {
+            return false;
+            // TODO: handle exception
+        }
+        return true;
+    }
+
     public static void main(String[] args) {
         // int [] nums = {1,0,1,3,1,2,3,3,3,4};
         // int [] nums = {1, 1, 2};
@@ -412,6 +478,11 @@ public class Solution {
 
         // System.out.println(titleToNumber("AB"));
         // System.out.println(trailingZeroes(1990));
-        System.out.println(replaceSpace(new StringBuffer("A B C")));
+
+        // System.out.println(hammingWeight(-3));
+        // System.out.println(countPrimes(10));
+        System.out.println(isIsomorphic("egg", "add"));
+
+        // System.out.println(replaceSpace(new StringBuffer("A B C")));
     }
 }
