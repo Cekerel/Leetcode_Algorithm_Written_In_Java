@@ -1,4 +1,3 @@
-import java.util.Arrays;
 
 /*
  * @lc app=leetcode.cn id=219 lang=java
@@ -36,6 +35,20 @@ import java.util.Arrays;
  */
 class Solution {
     public boolean containsNearbyDuplicate(int[] nums, int k) {
-
+        Set<Integer> tempSet = new HashSet<>();
+        int length = nums.length;
+        int size = 0;
+        for (int i = 0; i < length; i++) {
+            if (tempSet.contains(nums[i])) {
+                return true;
+            }
+            tempSet.add(nums[i]);
+            size++;
+            if (size > k) {
+                tempSet.remove(nums[i - k]);
+                size--;
+            }
+        }
+        return false;
     }
 }

@@ -1,7 +1,9 @@
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.Stack;
 
 /*******************************************************
@@ -395,6 +397,41 @@ public class SolutionTemp {
         return count;
     }
 
+    public static void rotate(int[] nums, int k) {
+        // int size = nums.length;
+        // int temp = Integer.MIN_VALUE;
+        // for (int i = 0; i < k; i++) {
+        // temp = nums[size - 1];
+        // for (int j = size - 1; j > 0; j--) {
+        // nums[j] = nums[j - 1];
+        // }
+        // nums[0] = temp;
+        // }
+        int size = nums.length;
+        int[] numsTemp = new int[size];
+        for (int i = 0; i < size; i++) {
+            numsTemp[(i + k) % size] = nums[i];
+        }
+        System.arraycopy(numsTemp, 0, nums, 0, size);
+    }
+
+    public static void reverseBits(int n) {
+        boolean positive = n > 0 ? true : false;
+        StringBuilder builder = new StringBuilder();
+        n = Math.abs(n);
+        while (n != 0) {
+            builder.append(n % 2);
+            n /= 2;
+        }
+        builder = builder.reverse();
+        int length = builder.length();
+        while (length++ < 31) {
+            builder.insert(0, 0);
+        }
+        // builder.append(positive ? 0 : 1);
+        System.out.println(builder.reverse().toString());
+    }
+
     public static boolean isIsomorphic(String s, String t) {
         try {
             int lengths = s.length();
@@ -421,6 +458,23 @@ public class SolutionTemp {
             // TODO: handle exception
         }
         return true;
+    }
+
+    public static boolean containsNearbyDuplicate(int[] nums, int k) {
+        int length = nums.length;
+        int size = 0;
+        Set<Integer> tempSet = new HashSet<>();
+        for (int i = 0; i < length; i++) {
+            if (tempSet.contains(nums[i]))
+                return true;
+            size++;
+            tempSet.add(nums[i]);
+            if (size > k) {
+                tempSet.remove(nums[i - k]);
+                size--;
+            }
+        }
+        return false;
     }
 
     public static void main(String[] args) {
@@ -481,8 +535,10 @@ public class SolutionTemp {
 
         // System.out.println(hammingWeight(-3));
         // System.out.println(countPrimes(10));
-        System.out.println(isIsomorphic("egg", "add"));
+        // System.out.println(isIsomorphic("egg", "add"));
 
+        int[] nums = { 1, 0, 1, 1 };
+        System.out.println(containsNearbyDuplicate(nums, 1));
         // System.out.println(replaceSpace(new StringBuffer("A B C")));
     }
 }
