@@ -60,12 +60,14 @@ class MyStack {
 
     /** Removes the element on top of the stack and returns that element. */
     public int pop() {
-        
+        if (empty())
+            return Integer.MIN_VALUE;
         int length = sign ? sizeOfFirstQueue - 1 : sizeOfSecondQueue - 1;
         if (sign) {
             for (int i = 0; i < length; i++) {
                 secondQueue.add(firstQueue.poll());
             }
+            sign = !sign;
             sizeOfFirstQueue = 0;
             sizeOfSecondQueue += length;
             return firstQueue.poll();
@@ -75,12 +77,15 @@ class MyStack {
             }
             sizeOfSecondQueue = 0;
             sizeOfFirstQueue += length;
+            sign = !sign;
             return secondQueue.poll();
         }
     }
 
     /** Get the top element. */
     public int top() {
+        if (empty())
+            return Integer.MIN_VALUE;
         int peek = 0;
         int length = sign ? sizeOfFirstQueue : sizeOfSecondQueue;
         if (sign) {
@@ -100,6 +105,7 @@ class MyStack {
             sizeOfSecondQueue = 0;
             sizeOfFirstQueue += length;
         }
+        sign = !sign;
         return peek;
     }
 

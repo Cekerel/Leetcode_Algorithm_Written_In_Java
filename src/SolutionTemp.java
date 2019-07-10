@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.Stack;
+import java.util.Queue;
+import java.util.LinkedList;
 
 /*******************************************************
  * 
@@ -71,8 +73,88 @@ class MinStack {
     }
 }
 
+class MyStack {
+    private static Queue<Integer> firstQueue;
+    private static Queue<Integer> secondQueue;
+    private static int sizeOfFirstQueue;
+    private static int sizeOfSecondQueue;
+    private static boolean sign = true;
+
+    /** Initialize your data structure here. */
+    public MyStack() {
+        firstQueue = new LinkedList<>();
+        secondQueue = new LinkedList<>();
+    }
+
+    /** Push element x onto stack. */
+    public void push(int x) {
+        (sign ? firstQueue : secondQueue).add(x);
+        if (sign) {
+            sizeOfFirstQueue++;
+        } else {
+            sizeOfSecondQueue++;
+        }
+    }
+
+    /** Removes the element on top of the stack and returns that element. */
+    public int pop() {
+        if (empty())
+            return Integer.MIN_VALUE;
+        int length = sign ? sizeOfFirstQueue - 1 : sizeOfSecondQueue - 1;
+        if (sign) {
+            for (int i = 0; i < length; i++) {
+                secondQueue.add(firstQueue.poll());
+            }
+            sign = !sign;
+            sizeOfFirstQueue = 0;
+            sizeOfSecondQueue += length;
+            return firstQueue.poll();
+        } else {
+            for (int i = 0; i < length; i++) {
+                firstQueue.add(secondQueue.poll());
+            }
+            sizeOfSecondQueue = 0;
+            sizeOfFirstQueue += length;
+            sign = !sign;
+            return secondQueue.poll();
+        }
+    }
+
+    /** Get the top element. */
+    public int top() {
+        if (empty())
+            return Integer.MIN_VALUE;
+        int peek = 0;
+        int length = sign ? sizeOfFirstQueue : sizeOfSecondQueue;
+        if (sign) {
+            for (int i = 0; i < length - 1; i++) {
+                secondQueue.add(firstQueue.poll());
+            }
+            peek = firstQueue.peek();
+            secondQueue.add(firstQueue.poll());
+            sizeOfFirstQueue = 0;
+            sizeOfSecondQueue += length;
+        } else {
+            for (int i = 0; i < length - 1; i++) {
+                firstQueue.add(secondQueue.poll());
+            }
+            peek = secondQueue.peek();
+            firstQueue.add(secondQueue.poll());
+            sizeOfSecondQueue = 0;
+            sizeOfFirstQueue += length;
+        }
+        sign = !sign;
+        return peek;
+    }
+
+    /** Returns whether the stack is empty. */
+    public boolean empty() {
+        return sizeOfFirstQueue == 0 && sizeOfSecondQueue == 0;
+    }
+}
+
 /*
- * Solution
+ * SolutionTemp
  */
 public class SolutionTemp {
 
@@ -537,8 +619,11 @@ public class SolutionTemp {
         // System.out.println(countPrimes(10));
         // System.out.println(isIsomorphic("egg", "add"));
 
-        int[] nums = { 1, 0, 1, 1 };
-        System.out.println(containsNearbyDuplicate(nums, 1));
+        // int[] nums = { 1, 0, 1, 1 };
+        // System.out.println(containsNearbyDuplicate(nums, 1));
         // System.out.println(replaceSpace(new StringBuffer("A B C")));
+        MyStack stack = new MyStack();
+        stack.push(1);
+        System.out.println(stack.top());
     }
 }
