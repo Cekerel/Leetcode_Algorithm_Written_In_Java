@@ -1,5 +1,3 @@
-import java.util.Queue;
-
 /*
  * @lc app=leetcode.cn id=225 lang=java
  *
@@ -35,78 +33,71 @@ import java.util.Queue;
  * 
  */
 class MyStack {
-
     private static Queue<Integer> firstQueue;
     private static Queue<Integer> secondQueue;
     private static int sizeOfFirstQueue;
     private static int sizeOfSecondQueue;
-    private static boolean sign = true;
-
     /** Initialize your data structure here. */
     public MyStack() {
         firstQueue = new LinkedList<>();
         secondQueue = new LinkedList<>();
+        sizeOfFirstQueue = sizeOfSecondQueue = 0;
     }
 
     /** Push element x onto stack. */
     public void push(int x) {
-        (sign ? firstQueue : secondQueue).add(x);
-        if (sign) {
+        if (sizeOfFirstQueue != 0) {
+            firstQueue.offer(x);
             sizeOfFirstQueue++;
-        } else {
+        } else if (sizeOfSecondQueue != 0) {
+            secondQueue.offer(x);
             sizeOfSecondQueue++;
+        } else {
+            firstQueue.offer(x);
+            sizeOfFirstQueue++;
         }
     }
 
     /** Removes the element on top of the stack and returns that element. */
     public int pop() {
-        if (empty())
-            return Integer.MIN_VALUE;
-        int length = sign ? sizeOfFirstQueue - 1 : sizeOfSecondQueue - 1;
-        if (sign) {
-            for (int i = 0; i < length; i++) {
-                secondQueue.add(firstQueue.poll());
+        if (firstQueue.size() != 0) {
+            while (sizeOfFirstQueue-- != 1) {
+                secondQueue.offer(firstQueue.poll());
+                sizeOfSecondQueue++;
             }
-            sign = !sign;
-            sizeOfFirstQueue = 0;
-            sizeOfSecondQueue += length;
             return firstQueue.poll();
         } else {
-            for (int i = 0; i < length; i++) {
-                firstQueue.add(secondQueue.poll());
+            while (sizeOfSecondQueue-- != 1) {
+                firstQueue.offer(secondQueue.poll());
+                sizeOfFirstQueue++;
             }
-            sizeOfSecondQueue = 0;
-            sizeOfFirstQueue += length;
-            sign = !sign;
             return secondQueue.poll();
         }
     }
 
     /** Get the top element. */
     public int top() {
-        if (empty())
-            return Integer.MIN_VALUE;
-        int peek = 0;
-        int length = sign ? sizeOfFirstQueue : sizeOfSecondQueue;
-        if (sign) {
-            for (int i = 0; i < length - 1; i++) {
-                secondQueue.add(firstQueue.poll());
+        int number = 0;
+        if (sizeOfFirstQueue != 0) {
+            while (sizeOfFirstQueue != 0) {
+                if (sizeOfFirstQueue == 1) {
+                    number = firstQueue.peek();
+                }
+                secondQueue.offer(firstQueue.poll());
+                sizeOfSecondQueue++;
+                sizeOfFirstQueue--;
             }
-            peek = firstQueue.peek();
-            secondQueue.add(firstQueue.poll());
-            sizeOfFirstQueue = 0;
-            sizeOfSecondQueue += length;
         } else {
-            for (int i = 0; i < length - 1; i++) {
-                firstQueue.add(secondQueue.poll());
+            while (sizeOfSecondQueue != 0) {
+                if (sizeOfSecondQueue == 1) {
+                    number = secondQueue.peek();
+                }
+                firstQueue.offer(secondQueue.poll());
+                sizeOfFirstQueue++;
+                sizeOfSecondQueue--;
             }
-            peek = secondQueue.peek();
-            firstQueue.add(secondQueue.poll());
-            sizeOfSecondQueue = 0;
-            sizeOfFirstQueue += length;
         }
-        sign = !sign;
-        return peek;
+        return number;
     }
 
     /** Returns whether the stack is empty. */
