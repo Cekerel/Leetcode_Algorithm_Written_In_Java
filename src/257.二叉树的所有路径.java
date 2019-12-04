@@ -48,8 +48,22 @@ import java.util.List;
  */
 class Solution {
     public List<String> binaryTreePaths(TreeNode root) {
-        List<TreeNode> nodeList = new LinkedList<>();
+        List<String> nodeList = new LinkedList<>();
+        traverse(root, nodeList, "");
         return nodeList;
+    }
+
+    public void traverse(TreeNode node, List<String> list, String string) {
+        if (node == null) {
+            return;
+        }
+        String str = string + node.val;
+        if (node.left == null && node.right == null) {
+            list.add(str);
+        } else {
+            traverse(node.left, list, str + "->");
+            traverse(node.right, list, str + "->");
+        }
     }
 }
 // @lc code=end
