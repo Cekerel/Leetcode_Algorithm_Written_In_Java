@@ -36,26 +36,6 @@
  */
 class Solution {
     public int rob(int[] nums) {
-        int length = nums.length;
-        if (length == 0) {
-            return 0;
-        }
-        int sum = 0;
-        int pointer = -2;
-        boolean greater = false;
-        while (pointer < length) {
-            int sum1 = 0;
-            int sum2 = 0;
-            if (pointer + 2 < length) {
-                sum1 = nums[pointer + 2];
-            }
-            if (pointer + 3 < length) {
-                sum2 = nums[pointer + 3];
-            }
-            greater = sum1 > sum2;
-            sum += (greater ? sum1 : sum2);
-            pointer += (greater ? 2 : 3);
-        }
-        return sum;
+        
     }
 }

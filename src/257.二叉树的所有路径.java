@@ -1,4 +1,4 @@
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 /*
@@ -38,22 +38,36 @@ import java.util.List;
 
 // @lc code=start
 /**
- * Definition for a binary tree node.
- * public class TreeNode {
- *     int val;
- *     TreeNode left;
- *     TreeNode right;
- *     TreeNode(int x) { val = x; }
- * }
+ * Definition for a binary tree node. public class TreeNode { int val; TreeNode
+ * left; TreeNode right; TreeNode(int x) { val = x; } }
  */
 class Solution {
     public List<String> binaryTreePaths(TreeNode root) {
-        List<String> nodeList = new LinkedList<>();
+        List<String> nodeList = new ArrayList<>();
         traverse(root, nodeList, "");
         return nodeList;
+        // if (root == null) {
+        // return new ArrayList<>();
+        // } else if (root.left == null && root.right == null) {
+        // list.add(Integer.toString(root.val));
+        // } else {
+        // String string = Integer.toString(root.val);
+        // traverse(root.left, list, string);
+        // traverse(root.right, list, string);
+        // }
     }
 
     public void traverse(TreeNode node, List<String> list, String string) {
+        // if (node == null)
+        // return;
+        // String str = string + "->" + node.val;
+        // if (node.left == null && node.right == null) {
+        // list.add(str);
+        // } else {
+        // traverse(node.left, list, str);
+        // traverse(node.right, list, str);
+        // }
+        
         if (node == null) {
             return;
         }
@@ -67,4 +81,3 @@ class Solution {
     }
 }
 // @lc code=end
-
