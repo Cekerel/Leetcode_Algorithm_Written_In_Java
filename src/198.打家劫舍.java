@@ -35,7 +35,31 @@
  * 
  */
 class Solution {
+    // public int rob(int[] nums) {
+    //     return temp(nums, 0, nums.length);
+    // }
+
+    // public int temp (int [] nums, int pointer, int length) {
+    //     int total = 0;
+    //     if (pointer >= length) {
+    //         return 0;
+    //     } else {
+    //         total += Math.max(nums[pointer] + temp(nums, pointer + 2, length), temp(nums, pointer + 1, length));
+    //     }
+    //     return total;
+    // }
+
     public int rob(int[] nums) {
-        
+        int length = nums.length;
+        if (length == 0) {
+            return 0;
+        }
+        int [] dp = new int[length + 1];
+        dp[0] = 0;
+        dp[1] = nums[0];
+        for (int i = 2; i <= length; i++) {
+            dp[i] = Math.max(dp[i - 1], dp[i - 2] + nums[i - 1]);
+        }
+        return dp[length];
     }
 }

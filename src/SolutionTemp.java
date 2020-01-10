@@ -559,6 +559,21 @@ public class SolutionTemp {
         return false;
     }
 
+
+    public static int rob(int[] nums) {
+        int length = nums.length;
+        if (length == 0) {
+            return 0;
+        }
+        int [] dp = new int[length + 1];
+        dp[0] = 0;
+        dp[1] = nums[0];
+        for (int i = 2; i <= length; i++) {
+            dp[i] = Math.max(dp[i - 1], dp[i - 2] + nums[i - 1]);
+        }
+        return dp[length];
+    }
+
     public static void main(String[] args) {
         // int [] nums = {1,0,1,3,1,2,3,3,3,4};
         // int [] nums = {1, 1, 2};
@@ -622,8 +637,13 @@ public class SolutionTemp {
         // int[] nums = { 1, 0, 1, 1 };
         // System.out.println(containsNearbyDuplicate(nums, 1));
         // System.out.println(replaceSpace(new StringBuffer("A B C")));
-        MyStack stack = new MyStack();
-        stack.push(1);
-        System.out.println(stack.top());
+
+
+        // MyStack stack = new MyStack();
+        // stack.push(1);
+        // System.out.println(stack.top());
+
+        int [] nums = new int[] {114,117,207,117,235,82,90,67,143,146,53,108,200,91,80,223,58,170,110,236,81,90,222,160,165,195,187,199,114,235,197,187,69,129,64,214,228,78,188,67,205,94,205,169,241,202,144,240};
+        System.out.println(rob(nums));
     }
 }

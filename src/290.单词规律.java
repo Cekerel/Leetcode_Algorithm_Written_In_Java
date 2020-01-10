@@ -1,3 +1,6 @@
+import java.util.HashMap;
+import java.util.Map;
+
 /*
  * @lc app=leetcode.cn id=290 lang=java
  *
@@ -45,7 +48,26 @@
 // @lc code=start
 class Solution {
     public boolean wordPattern(String pattern, String str) {
-        
+        String [] strings = str.split(" ");
+        int length = pattern.length();
+        if (length != strings.length) {
+            return false;
+        }
+        char [] chars = pattern.toCharArray();
+        Map<Character, String> stringMap = new HashMap<>();
+        String string = new String();
+        for (int i = 0; i < length; i++) {
+            string = stringMap.get(chars[i]);
+            if (string != null) {
+                if (!string.equals(strings[i])) {
+                    return false;
+                }
+            } else if (stringMap.containsValue(strings[i]))
+                return false;
+            else
+                stringMap.put(chars[i], strings[i]);
+        }
+        return true;
     }
 }
 // @lc code=end
