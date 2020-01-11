@@ -43,7 +43,9 @@ class Solution {
         //     }
         //     return num == 1;
         // }
-        
+        double epsilon = 1e-7;
+        return ((Math.log(num) / Math.log(4)) % 1 + epsilon) <= 2 * epsilon;
+
     }
 }
 // @lc code=end

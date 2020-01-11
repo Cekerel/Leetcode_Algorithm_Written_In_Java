@@ -203,7 +203,7 @@ public class Temp {
         Scanner input = new Scanner(System.in);
         string = input.nextLine();
         System.out.println(string);
-
+        input.close();
     }
 
     public static void main(String[] args) {

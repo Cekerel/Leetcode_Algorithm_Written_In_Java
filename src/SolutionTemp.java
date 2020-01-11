@@ -574,6 +574,38 @@ public class SolutionTemp {
         return dp[length];
     }
 
+    public static String reverseVowels(String s) {
+        int length = s.length();
+        if (length == 0) {
+            return s;
+        }
+        char [] chars = s.toLowerCase().toCharArray();
+        int left = 0, right = length - 1;
+        while(left < right) {
+            if (isVowel(chars[left]) && isVowel(chars[right])) {
+                char c = chars[left];
+                chars[left] = chars[right];
+                chars[right] = c;
+                left++;
+                right--;
+            } else if (!isVowel(chars[left]) && isVowel(chars[right])) {
+                left++;
+            } else if (isVowel(chars[left]) && !isVowel(chars[right])) {
+                right--;
+            } else {
+                left++;
+                right--;
+            }
+        }
+        return new String(chars);
+    }
+    public static boolean isVowel(char c) {
+        if (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u') {
+            return true;
+        } 
+        return false;
+    }
+
     public static void main(String[] args) {
         // int [] nums = {1,0,1,3,1,2,3,3,3,4};
         // int [] nums = {1, 1, 2};
@@ -643,7 +675,9 @@ public class SolutionTemp {
         // stack.push(1);
         // System.out.println(stack.top());
 
-        int [] nums = new int[] {114,117,207,117,235,82,90,67,143,146,53,108,200,91,80,223,58,170,110,236,81,90,222,160,165,195,187,199,114,235,197,187,69,129,64,214,228,78,188,67,205,94,205,169,241,202,144,240};
-        System.out.println(rob(nums));
+        // int [] nums = new int[] {114,117,207,117,235,82,90,67,143,146,53,108,200,91,80,223,58,170,110,236,81,90,222,160,165,195,187,199,114,235,197,187,69,129,64,214,228,78,188,67,205,94,205,169,241,202,144,240};
+        // System.out.println(rob(nums));
+        System.out.println(reverseVowels("aeiuoauioeeaioiuaueiouae"));
+        System.out.println(new String(new StringBuilder().append("aeiuoauioeeaioiuaueiouae").reverse()));
     }
 }
