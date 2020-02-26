@@ -1,5 +1,7 @@
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -606,6 +608,30 @@ public class SolutionTemp {
         return false;
     }
 
+    public static int getSum(int a, int b) {
+        // java.math.BigInteger aBigInteger = new java.math.BigInteger(String.valueOf(a));
+        // java.math.BigInteger bBigInteger = new java.math.BigInteger(String.valueOf(b));
+        // return aBigInteger.add(bBigInteger).intValue();
+        // String aString = String.format("%021s", Integer.toBinaryString(a));
+        // String bString = String.format("%021s", Integer.toBinaryString(b));
+        
+        char[] achars = aString.toCharArray();
+        char[] bchars = bString.toCharArray();
+        int length = 21;
+        int [] s = new int[length];
+        int [] c = new int[length + 1];
+        c[length] = 0;
+        for (int i = length - 1; i >= 0; i--) {
+            s[i] = (achars[i] - '0') ^ (bchars[i] - '0') ^ c[i + 1];
+            c[i] = (achars[i] - '0') & (bchars[i] - '0') | (((achars[i] - '0') ^ (bchars[i] - '0')) & c[i + 1]);
+        }
+        int sum = 0;
+        for (int i = 0; i < 21; i++) {
+            sum += s[i] * 2 << (20 - i);
+        }
+        return sum / 2;
+    }
+
     public static void main(String[] args) {
         // int [] nums = {1,0,1,3,1,2,3,3,3,4};
         // int [] nums = {1, 1, 2};
@@ -677,7 +703,9 @@ public class SolutionTemp {
 
         // int [] nums = new int[] {114,117,207,117,235,82,90,67,143,146,53,108,200,91,80,223,58,170,110,236,81,90,222,160,165,195,187,199,114,235,197,187,69,129,64,214,228,78,188,67,205,94,205,169,241,202,144,240};
         // System.out.println(rob(nums));
-        System.out.println(reverseVowels("aeiuoauioeeaioiuaueiouae"));
-        System.out.println(new String(new StringBuilder().append("aeiuoauioeeaioiuaueiouae").reverse()));
+        // System.out.println(reverseVowels("aeiuoauioeeaioiuaueiouae"));
+        // System.out.println(new String(new StringBuilder().append("aeiuoauioeeaioiuaueiouae").reverse()));
+
+        System.out.println(getSum(1327, 24));
     }
 }
