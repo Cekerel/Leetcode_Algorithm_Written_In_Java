@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 /*
  * @lc app=leetcode.cn id=572 lang=java
  *
@@ -48,7 +51,7 @@
  * ⁠1   2
  * ⁠   /
  * ⁠  0
- *
+ *  
  *
  * 给定的树 t：
  *
@@ -64,18 +67,33 @@
 
 // @lc code=start
 /**
- * Definition for a binary tree node. public class TreeNode { int val; TreeNode
- * left; TreeNode right; TreeNode() {} TreeNode(int val) { this.val = val; }
- * TreeNode(int val, TreeNode left, TreeNode right) { this.val = val; this.left
- * = left; this.right = right; } }
- */
+ * Definition for a binary tree node.
+ *public class TreeNode {
+ *    int val;
+ *    TreeNode left;
+ *    TreeNode right;
+ *    TreeNode() {
+ *    }
+ *    TreeNode(int val) {
+ *        this.val = val;
+ *    }
+ *    TreeNode(int val, TreeNode left, TreeNode right) {
+ *        this.val = val;
+ *        this.left = left;
+ *        this.right = right;
+ *    }
+}*/
+
 class Solution {
+
+    // 暴力解法
     // public boolean isSubtree(TreeNode s, TreeNode t) {
     //     if (s != null) {
-    //         return subTree(s, t) || isSubtree(s.left, t) || subTree(s.right,t);
+    //         return subTree(s, t) || isSubtree(s.left, t) || isSubtree(s.right, t);
     //     }
     //     return false;
     // }
+
     // public boolean subTree(TreeNode s, TreeNode t) {
     //     if (s == null && t == null)
     //         return true;
@@ -85,18 +103,68 @@ class Solution {
     //     return false;
     // }
 
-
+    // KMP解法
     public boolean isSubtree(TreeNode s, TreeNode t) {
-        if (s == null) return false;
-//t是s的子树，要么t等于s，要么t等于s的左/右子树。
-        return subFrom(s, t) || isSubtree(s.left, t) || isSubtree(s.right, t);
+        List<Integer> sTraverse = new ArrayList<>();
+        List<Integer> tTraverse = new ArrayList<>();
+        getTreeTraverse(s, sTraverse);
+        getTreeTraverse(t, tTraverse);
+        return KMP(sTraverse, tTraverse) >= 0;
+
     }
 
-    public boolean subFrom(TreeNode s, TreeNode t){
-        if (s == null && t == null) return true;
-        if (s == null || t == null) return false;
-        if (s.val != t.val) return false;
-        return subFrom(s.left, t.left) && subFrom(s.right, t.right);
+    public int KMP(List<Integer> s, List<Integer> t) {
+        int[] next = getNext(t);
+        int now = 0;
+        int i = 0;
+        while (i < s.size()) {
+            if (s.get(i).equals(t.get(now))) {
+                i++;
+                now++;
+            } else if (now != 0) {
+                now = next[now - 1];
+            } else {
+                i++;
+            }
+
+            if (now >= next.length) {
+                return i - now + 1;
+            }
+        }
+        return -1;
+    }
+
+    public int[] getNext(List<Integer> t) {
+        int[] next = new int[t.size()];
+        next[0] = 0;
+        int i = 1;
+        int now = 0;
+        while (i < next.length) {
+            if (t.get(i).equals(t.get(now))) {
+                next[i++] = ++now;
+            } else if (now != 0){
+                now = next[now -1];
+            } else {
+                next[i++] = now;
+            }
+        }
+        return next;
+    }
+
+    public void getTreeTraverse(TreeNode node, List<Integer> list) {
+        if (node != null) {
+            list.add(node.val);
+            if (node.left != null) {
+                getTreeTraverse(node.left, list);
+            } else {
+                list.add(Integer.MAX_VALUE);
+            }
+            if (node.right != null) {
+                getTreeTraverse(node.right, list);
+            } else {
+                list.add(Integer.MIN_VALUE);
+            }
+        }
     }
 }
 // @lc code=end
