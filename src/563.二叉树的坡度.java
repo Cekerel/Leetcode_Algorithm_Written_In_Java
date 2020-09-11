@@ -57,22 +57,37 @@
  * }
  */
 class Solution {
+    // public int findTilt(TreeNode root) {
+    //     int tilt = 0;
+    //     if (root != null) {
+    //         tilt += Math.abs(getSum(root.left) - getSum(root.right)) + findTilt(root.right) + findTilt(root.left);
+    //     }
+    //     return tilt;
+    // }
+
+    // public int getSum(TreeNode node) {
+    //     int sum = 0;
+    //     if (node != null) {
+    //         sum = getSum(node.left) + getSum(node.right) + node.val;
+    //     }
+    //     return sum;
+    // }
+
+    int tilt = 0;
     public int findTilt(TreeNode root) {
-        int tilt = 0;
-        if (root != null) {
-            tilt += Math.abs(getSum(root.left) - getSum(root.right)) + findTilt(root.right) + findTilt(root.left);
-        }
+        traverse(root);
         return tilt;
     }
 
-    public int getSum(TreeNode node) {
-        int sum = 0;
-        if (node != null) {
-            sum = getSum(node.left) + getSum(node.right) + node.val;
+    public int traverse(TreeNode node) {
+        if (node == null) {
+            return 0;
         }
-        return sum;
+        int left = traverse(node.left);
+        int right = traverse(node.right);
+        tilt += Math.abs(left - right);
+        return node.val + left + right;
     }
-
 
 }
 // @lc code=end
