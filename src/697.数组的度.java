@@ -73,7 +73,6 @@ class Solution {
             longLength = Math.min(list.get(list.size() - 1) - list.get(0) + 1, longLength);
         }
         return longLength;
-
     }
     // public int findShortestSubArray(int[] nums) {
     //     Map<Integer, Integer> left = new HashMap(),
