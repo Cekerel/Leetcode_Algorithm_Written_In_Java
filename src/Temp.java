@@ -1,6 +1,12 @@
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
+import java.util.Set;
 import java.util.Stack;
+import java.util.stream.Collectors;
 
 /**
  * fdsafdsaf
@@ -206,8 +212,97 @@ public class Temp {
         input.close();
     }
 
+    public static List<String> subdomainVisits(String[] cpdomains) {
+        Map<String, Integer> ansMap = new HashMap<>();
+        Map<String, Integer> tempMap = new HashMap<>();
+        Set<String> keys = new HashSet<>();
+        for (String cpdomain : cpdomains) {
+            String[] split = cpdomain.split(" ");
+            ansMap.merge(split[1], Integer.parseInt(split[0]), Integer::sum);
+            tempMap.merge(split[1], Integer.parseInt(split[0]), Integer::sum);
+            keys.add(split[1]);
+        }
+        keys.forEach(key -> {
+            int index = -1;
+            String tempString = new String(key);
+            while ((index = tempString.indexOf(".")) > 0) {
+                ansMap.merge((tempString = tempString.substring(index + 1)), tempMap.get(key), Integer::sum);
+            }
+        });
+
+        return ansMap.keySet().stream().map(key -> ansMap.get(key) + " " + key).collect(Collectors.toList());
+    }
+
+    public static double largestTriangleArea(int[][] points) {
+        double square = 0;
+        for (int i = 0; i < points.length; i++) {
+            for (int j = i + 1; j < points.length; j++) {
+                for (int k = j + 1; k < points.length; k++) {
+                    System.out.println(points[i][0] + " " + points[i][1]);
+                    System.out.println(points[j][0] + " " + points[j][1]);
+                    System.out.println(points[k][0] + " " + points[k][1]);
+
+                    System.out.println(
+                            Math.pow(points[i][0] - points[j][0], 2) + Math.pow(points[i][1] - points[j][1], 2));
+                    System.out.println(
+                            Math.pow(points[j][0] - points[k][0], 2) + Math.pow(points[j][1] - points[k][1], 2));
+                    System.out.println(
+                            Math.pow(points[i][0] - points[k][0], 2) + Math.pow(points[i][1] - points[k][1], 2));
+
+                    System.out.println(getSquare(
+                            Math.pow(points[i][0] - points[j][0], 2) + Math.pow(points[i][1] - points[j][1], 2),
+                            Math.pow(points[j][0] - points[k][0], 2) + Math.pow(points[j][1] - points[k][1], 2),
+                            Math.pow(points[i][0] - points[k][0], 2) + Math.pow(points[i][1] - points[k][1], 2)));
+                    System.out.println();
+                    square = Math.max(square, getSquare(
+                            Math.pow(points[i][0] - points[j][0], 2) + Math.pow(points[i][1] - points[j][1], 2),
+                            Math.pow(points[j][0] - points[k][0], 2) + Math.pow(points[j][1] - points[k][1], 2),
+                            Math.pow(points[i][0] - points[k][0], 2) + Math.pow(points[i][1] - points[k][1], 2)));
+                }
+            }
+        }
+        return square;
+    }
+
+    public static double getSquare(double aLineSquare, double bLineSquare, double cLineSquare) {
+        return 0.25 * Math.sqrt(4 * aLineSquare * bLineSquare - Math.pow((aLineSquare + bLineSquare - cLineSquare), 2));
+    }
+
     public static void main(String[] args) {
         // stringSase();
-        finalCase();
+        // finalCase();
+        // String[] cpdomains = new String[] { "3953 jfz.team",
+        // "9251 miu.kmz.team",
+        // "9761 fsw.team",
+        // "8650 azh.jre.team",
+        // "9906 xpn.ajl.team",
+        // "9171 hal.team",
+        // "8918 kmx.team",
+        // "9019 hal.team",
+        // "4544 vec.amr.team",
+        // "2223 lux.zqk.team" };
+
+        // String[] expectedAns = new String[] { "9251 miu.kmz.team","8918
+        // kmx.team","9251 kmz.team","9906 xpn.ajl.team","4544 amr.team","2223
+        // lux.zqk.team","8650 azh.jre.team","9906 ajl.team","3953 jfz.team","75396
+        // team","18190 hal.team","4544 vec.amr.team","8650 jre.team","9761
+        // fsw.team","2223 zqk.team" };
+
+        // List<String> subdomainVisits = subdomainVisits(cpdomains);
+        // Set<String> set = new HashSet<>();
+        // for (String string : subdomainVisits) {
+        // set.add(string);
+        // }
+        // for (String string : expectedAns) {
+        // if (set.contains(string)) {
+        // set.remove(string);
+        // } else {
+        // set.add(string);
+        // }
+        // }
+        // System.out.println(set.toString());
+
+        int[][] points = { { 0, 0 }, { 0, 1 }, { 1, 0 }, { 0, 2 }, { 2, 0 } };
+        System.out.println(largestTriangleArea(points));
     }
 }

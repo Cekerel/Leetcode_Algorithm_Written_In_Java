@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"java.configuration.maven.userSettings": "D:\\Software\\Java\\apache-maven-3.8.1\\conf\\settings.xml",
+		"java.maven.downloadSources": true,
+		"java.eclipse.downloadSources": true,
+		"java.maven.updateSnapshots": true
+	}
+}

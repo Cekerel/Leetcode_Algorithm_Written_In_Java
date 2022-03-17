@@ -20,13 +20,13 @@ import java.util.LinkedList;
  * 
  **/
 
-class MinStack {
+class MyMinStack {
 
     private Stack<Integer> mainStack;
     private Stack<Integer> minStack;
 
     /** initialize your data structure here. */
-    public MinStack() {
+    public MyMinStack() {
         mainStack = new Stack<>();
         minStack = new Stack<>();
     }
@@ -612,8 +612,8 @@ public class SolutionTemp {
         // java.math.BigInteger aBigInteger = new java.math.BigInteger(String.valueOf(a));
         // java.math.BigInteger bBigInteger = new java.math.BigInteger(String.valueOf(b));
         // return aBigInteger.add(bBigInteger).intValue();
-        // String aString = String.format("%021s", Integer.toBinaryString(a));
-        // String bString = String.format("%021s", Integer.toBinaryString(b));
+        String aString = String.format("%021s", Integer.toBinaryString(a));
+        String bString = String.format("%021s", Integer.toBinaryString(b));
         
         char[] achars = aString.toCharArray();
         char[] bchars = bString.toCharArray();
@@ -632,80 +632,78 @@ public class SolutionTemp {
         return sum / 2;
     }
 
+    public static int countPrimeSetBits(int L, int R) {
+        int count = 0;
+        if (R >= L) {
+            List<Integer> primes = Arrays.asList(2, 3, 5, 7, 11, 13, 15, 17, 19);
+
+            for (int i = L; i < R + 1; i++) {
+                if (primeSetBits(i, primes)) {
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+
+
+    public static boolean primeSetBits(int number, List<Integer> primes) {
+        if (number != 1) {
+            String binaryString = Integer.toBinaryString(number);
+            if (primes.contains(binaryString.length() - binaryString.replace("1", "").length())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    public static int KMP(String A, String B) {
+        if (A.length() != 0 && B.length() != 0) {
+            int[] next = getNext(B);
+
+            char[] aArray = A.toCharArray();
+            char[] bArray = B.toCharArray();
+            int i = 0;
+            int j = 0;
+
+            while (i < aArray.length && j < bArray.length) {
+                if (j <= 0 || aArray[i] == bArray[j]) {
+                    i++;
+                    j++;
+                } else {
+                    j = next[j - 1];
+                    i++;
+                }
+            }
+
+            if (j == bArray.length) {
+                return i - j + 1;
+            }
+        }
+        return -1;
+    }
+    
+    public static int[] getNext(String B) {
+        char [] charArray = B.toCharArray();
+        int[] next = new int[charArray.length];
+        next[0] = -1;
+        int i = 0;
+        int j = -1;
+        while (i < charArray.length) {
+            if (j <= 0 || charArray[i] == charArray[j]) {
+                next[i++] = ++j;
+            } else {
+                j = next[j];
+                i++;
+            }
+        }
+        return next;
+    }
+
+
     public static void main(String[] args) {
-        // int [] nums = {1,0,1,3,1,2,3,3,3,4};
-        // int [] nums = {1, 1, 2};
-        // int num = 3;
-        // System.out.println(nums.length);
-        // System.out.println(strStr("", ""));
-        // int[] nums = { 1, 3, 5, 6 };
-        // int target = -1;
-        // System.out.println(searchInsert(nums, target));
-        // int[] result = plusOne(nums);
-        // for (int num : result) {
-        // System.out.print(" " + num);
-        // }
-        // System.out.println(lengthOfLastWord("Hello World "));
-        // System.out.println(mySqrt(2147395599));
-        // System.out.println(addBinary("1010", "1011"));
-        // int[] nums = new int[] { -2, 1, -3, 4, -1, 2, 1, -5, 4 };
-        // System.out.println(maxSubArray(nums));
-
-        // int[] nums1 = new int[] { 1, 2, 5, 0, 0, 0 };
-        // int[] nums2 = new int[] { 4, 5, 6 };
-        // merge(nums1, 3, nums2, 3);
-
-        // List<List<Integer>> finalList = generate(7);
-        // for (List list : finalList) {
-        // System.out.println(list.toString());
-        // }
-        // List<Integer> list = getRow(4);
-        // System.out.println(list.toString());
-
-        // MinStack minStack = new MinStack();
-        // minStack.push(512);
-        // minStack.push(-1024);
-        // minStack.push(-1024);
-        // minStack.push(512);
-        // minStack.printStack();
-        // System.out.println("After poping");
-        // minStack.pop();
-        // minStack.printStack();
-        // System.out.println(minStack.getMin());
-        // System.out.println("After poping");
-        // minStack.pop();
-        // minStack.printStack();
-        // System.out.println(minStack.getMin());
-        // System.out.println("After poping");
-        // minStack.pop();
-        // minStack.printStack();
-        // System.out.println(minStack.getMin());
-        // System.out.println(isPalindrome("A man, a plan, a canal: Panama"));
-
-        // System.out.println(majorityElement(nums));
-        // System.out.println("Hello");
-
-        // System.out.println(titleToNumber("AB"));
-        // System.out.println(trailingZeroes(1990));
-
-        // System.out.println(hammingWeight(-3));
-        // System.out.println(countPrimes(10));
-        // System.out.println(isIsomorphic("egg", "add"));
-
-        // int[] nums = { 1, 0, 1, 1 };
-        // System.out.println(containsNearbyDuplicate(nums, 1));
-        // System.out.println(replaceSpace(new StringBuffer("A B C")));
-
-
-        // MyStack stack = new MyStack();
-        // stack.push(1);
-        // System.out.println(stack.top());
-
-        // int [] nums = new int[] {114,117,207,117,235,82,90,67,143,146,53,108,200,91,80,223,58,170,110,236,81,90,222,160,165,195,187,199,114,235,197,187,69,129,64,214,228,78,188,67,205,94,205,169,241,202,144,240};
-        // System.out.println(rob(nums));
-        // System.out.println(reverseVowels("aeiuoauioeeaioiuaueiouae"));
-        // System.out.println(new String(new StringBuilder().append("aeiuoauioeeaioiuaueiouae").reverse()));
-
-        System.out.println(getSum(1327, 24));
+       
+        System.out.println(KMP("abcd1abccdadcb", "cda"));
     }
 }
