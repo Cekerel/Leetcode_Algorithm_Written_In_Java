@@ -37,13 +37,33 @@
  * 
  */
 class Solution {
+
+    
+    int [] dp = new int[46];
+
     public int climbStairs(int n) {
-        int g = 1;
-        int b = 0;
-        while (n-- > 0) {
-            g += b;
-            b = g - b;
+
+        /*
+         * Fibonacci
+         */
+        // int g = 1;
+        // int b = 0;
+        // while (n-- > 0) {
+        //     g += b;
+        //     b = g - b;
+        // }
+        // return g;
+        
+        /*
+         * DP
+         */
+        dp[0] = dp[1] = 1;
+        
+        for (int i = 2; i <= n; i++) {
+            dp[i] = dp[i - 1] + dp[i - 2];
         }
-        return g;
+
+        return dp[n];
+
     }
 }
