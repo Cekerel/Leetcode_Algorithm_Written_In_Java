@@ -42,6 +42,27 @@
 // @lc code=start
 class Solution {
     public boolean checkRecord(String s) {
+
+
+        // return s.length() - s.replaceAll("A", "").length() < 2 && s.length() - s.replaceAll("LLL", "").length() < 3;
+
+        // char[] charArray = s.toCharArray();
+        // int countA = 0;
+        // for (int i = 0; i < charArray.length; i++) {
+        //     if (charArray[i] == 'A' && ++countA >= 2) {
+        //         return false;
+        //     }
+        //     int startLLL = i;
+        //     int endLLL = i;
+        //     while (endLLL < charArray.length && charArray[endLLL] == 'L') {
+        //         endLLL++;
+        //     }
+        //     if (endLLL - startLLL >= 3) {
+        //         return false;
+        //     }
+        // }
+        // return true;
+
         char[] chars = s.toCharArray();
         int numA = 0;
         int numL = 0;
