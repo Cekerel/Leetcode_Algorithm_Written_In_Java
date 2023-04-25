@@ -82,6 +82,39 @@ class Solution {
 //    }
 
 
+//    private List<List<Integer>> result = new ArrayList<>();
+//
+//    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+//        if (candidates == null || candidates.length <= 0) {
+//            return result;
+//        }
+//
+//        dfs(candidates, 0,  target, new ArrayList<>(), 0);
+//
+//        return result;
+//    }
+//
+//    private void dfs (int[] candidates, int depth, int target, List<Integer> subResult, int sum) {
+//        if (depth >= candidates.length) {
+//
+//            return;
+//        }
+//        if (target == sum) {
+//            result.add(new ArrayList<>(subResult));
+//            return;
+//        }
+//
+//
+//        dfs(candidates, depth + 1, target, subResult, sum); // 本次不取
+//
+//        if (candidates[depth] + sum > target) { // 本次不能取
+//            return;
+//        }
+//        subResult.add(candidates[depth]); // 逮着candidates[depth]使劲薅
+//        dfs(candidates, depth, target, subResult, sum + candidates[depth]);
+//        subResult.remove(subResult.size() - 1); // 回溯
+//    }
+
     private List<List<Integer>> result = new ArrayList<>();
 
     public List<List<Integer>> combinationSum(int[] candidates, int target) {
@@ -89,30 +122,30 @@ class Solution {
             return result;
         }
 
-        dfs(candidates, 0,  target, new ArrayList<>(), 0);
+        backTracking(candidates, 0, target, new ArrayList<>());
 
         return result;
     }
 
-    private void dfs (int[] candidates, int depth, int target, List<Integer> subResult, int sum) {
-        if (depth >= candidates.length) {
-
+    private void backTracking(int [] candidates, int depth, int remaining, List<Integer> subResult) {
+        if (depth == candidates.length) {
+            if (remaining == 0) {
+                result.add(new ArrayList<>(subResult));
+            }
             return;
         }
-        if (target == sum) {
+        if (remaining == 0) {
             result.add(new ArrayList<>(subResult));
-            return;
         }
+        for (int i = depth; i < candidates.length; i++) { // 组合问题这里需要取depth， 排列问题才需要取0， 切记
+            if (remaining < candidates[i]) { // 大剪枝
+                continue;
+            }
 
-
-        dfs(candidates, depth + 1, target, subResult, sum); // 本次不取
-
-        if (candidates[depth] + sum > target) { // 本次不能取
-            return;
+            subResult.add(candidates[i]);
+            backTracking(candidates, i, remaining - candidates[i], subResult);
+            subResult.remove(subResult.size() - 1);
         }
-        subResult.add(candidates[depth]); // 逮着candidates[depth]使劲薅
-        dfs(candidates, depth, target, subResult, sum + candidates[depth]);
-        subResult.remove(subResult.size() - 1); // 回溯
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
